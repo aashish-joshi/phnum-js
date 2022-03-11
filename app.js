@@ -16,6 +16,10 @@ function displayNumber() {
     .then((data1) => {
       //do something
       let final_data = data1.numbers;
+      document.getElementById("sonetel-other-num").innerHTML = "<br>";
+      for (let other_nums of final_data){
+        document.getElementById("sonetel-other-num").innerHTML += other_nums.e164number + " (" + other_nums.iso +")" +"<br>";
+      }
 
       fetch("https://api.sonetel.com/geo-location/ipaddress/")
         .then((response) => {
