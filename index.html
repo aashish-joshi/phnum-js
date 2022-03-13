@@ -5,7 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sonetel Phone Number JS Demo</title>
-    <script src="app.min.js" defer></script>
     <style>
         a {
             color: red;
@@ -15,13 +14,9 @@
             margin: 100px;
         }
     </style>
-    
 </head>
 <body>
-    <!-- The most appropriate phone number is shown in the HTML element with ID "sonetel-disp-num" -->
-    <p>Primary Number To Display: <span id="sonetel-disp-num"></span></p>
-
-    <p>List of all numbers: <span id="sonetel-other-num"></span></p>
-
+    <script src="dist/sonetel-phnum.min.js" defer></script>
+    <p>Number To Display: <span id="sonetel-disp-num" data-excludenum="861087833345, 31858884900" data-uri="num.json"></span></p>
     </body>
 </html>
