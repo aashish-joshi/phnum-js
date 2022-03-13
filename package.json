@@ -1,10 +1,11 @@
 {
-  "name": "phnum",
-  "version": "0.2.1",
-  "description": "Auto display and format phone numbers based on website visitor location",
+  "name": "sonetel-phnum-display",
+  "version": "0.2.2",
+  "description": "Auto display and format phone numbers based on website visitor's location.",
   "main": "./src/index.js",
   "scripts": {
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "build:dev": "webpack --mode development"
   },
   "repository": {
     "type": "git",

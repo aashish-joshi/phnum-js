@@ -1,18 +1,5 @@
 import { CountryCode, parsePhoneNumber } from 'libphonenumber-js';
-
-// Load libphonenumber library
-// function loadScript(url: string) {
-//     var head: HTMLHeadElement = document.head;
-//     var script: HTMLScriptElement = document.createElement("script");
-//     script.type = "text/javascript";
-//     script.src = url;
-//     head.appendChild(script);
-//   }
-  
-//   loadScript(
-//     "https://cdnjs.cloudflare.com/ajax/libs/libphonenumber-js/1.9.49/libphonenumber-js.min.js"
-//   );
-  
+ 
   // Get the visitor's country
   function getUserCountry() {
     return new Promise((resolve, reject) => {
@@ -75,8 +62,8 @@ import { CountryCode, parsePhoneNumber } from 'libphonenumber-js';
           }
           // if the number coun't be set by ISO, fetch the default entry.
           if (displayNum === undefined) {
-            displayNum = (<any>dataNum).default.e164number;
-            displayNumCountry = (<any>dataNum).default.iso;
+            displayNum = (<any>dataNum).response.default.e164number;
+            displayNumCountry = (<any>dataNum).response.default.iso;
             //console.log("Using default display num");
           }
   
