@@ -1,6 +1,6 @@
 {
   "name": "sonetel-phnum-display",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Auto display and format phone numbers based on website visitor's location.",
   "main": "./src/index.js",
   "scripts": {
