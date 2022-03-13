@@ -2,6 +2,13 @@
 
 A JS library for displaying Sonetel phone numbers on customer's website. Written in [TypeScript](https://www.typescriptlang.org/).
 
+**DEMO**
+
+* URL: [sonetel-numwidget-js.netlify.app](https://sonetel-numwidget-js.netlify.app)
+* Demo using proxy server: [Proxy server link](https://proxy-lon.hidemyass-freeproxy.com/proxy/en-in/aHR0cHM6Ly9zb25ldGVsLW51bXdpZGdldC1qcy5uZXRsaWZ5LmFwcC8)
+
+Change the location in the proxy server to see how different numbers are displayed. If the number list doesn't contain a number from the location of the proxy, then it will show the default number instead.
+
 ### 1. Prerequisites for development
 
 - Windows/*nix/macOS operating system
