@@ -1,2 +1,4 @@
 settings.json
 *.html
+node_modules
+.vscode
