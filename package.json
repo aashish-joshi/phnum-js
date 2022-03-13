@@ -1,6 +1,6 @@
 {
   "name": "phnum",
-  "version": "0.0.3",
+  "version": "0.2.1",
   "description": "Auto display and format phone numbers based on website visitor location",
   "main": "./src/index.js",
   "scripts": {
