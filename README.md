@@ -53,7 +53,7 @@ sonetel-phnum-js/
 This command starts the build process, which results in putting the compiled `sonetel-phnum.min.js` library in the `dist/` folder. The final JS is minified and ready for use in a production environment.
 
 ```
-npm run build
+npm run build:prod
 ```
 
 <br>&nbsp;
