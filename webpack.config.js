@@ -6,7 +6,7 @@ module.exports = {
     entry: './src/index.ts',
     output: {
         path: path.resolve(__dirname,'./dist'),
-        filename: 'sonetel-phnum.min.js',
+        filename: 'showBestNumber.min.js',
         publicPath: '/dist/'
     },
     module: {
