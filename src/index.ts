@@ -1,109 +1,109 @@
-import { CountryCode, parsePhoneNumber } from 'libphonenumber-js';
+'use strict'
+import { CountryCode, parsePhoneNumber } from 'libphonenumber-js'
+import { getUserCountry } from './getUserCountry'
+import { checkCache, setCache, cacheExpired } from './cache'
 
-const dataElement = document.querySelector("#sonetel-disp-num")! as HTMLElement;
-const VERSION = "0.2.3";
+// Constants
+import * as constants from './constants'
 
-console.log("SONETEL: Phone number display widget v" + VERSION);
+// Import interfaces
+import { userCountry } from './interfaces/userCountry'
+import { phoneNumberList } from './interfaces/phoneNumberList'
 
-// Get the visitor's country
-function getUserCountry() {
-  return new Promise((resolve, reject) => {
-    fetch("https://api.sonetel.com/geo-location/ipaddress/")
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        resolve(data);
-      })
-      .catch((err) => {
-        reject(err);
-      });
-  });
-}
+// Constants
+const displayElem = document.querySelector(constants.DISPLAY_ELEMENT) as HTMLElement
+
+console.log(`ShowBestNum:: Phone number display widget v${constants.VERSION}`)
 
 // using the visitor's country, get the best phone number and format it.
-function getPhoneNumber() {
-  return new Promise((resolve, reject) => {
-    const numJsonUri = dataElement.dataset.uri! as string;
+async function getPhoneNumber(visitorCountryCode: string) {
+  const numJsonUri = displayElem.dataset.uri as string
+
+  const response = await new Promise((resolve, reject) => {
     fetch(numJsonUri)
-      .then((response) => {
-        return response.json();
+      .then(async (response) => {
+        if(response.ok){
+          return await response.json()
+        }else{
+          throw new Error(response.statusText)
+        }
       })
       .then((data) => {
-        resolve(data);
+        resolve(data)
       })
       .catch((err) => {
-        reject(err);
-      });
-  });
-}
-
-getUserCountry()
-  .then((data: any) => {
-    let customerCountry = (data).response.country_code;
-    getPhoneNumber()
-      .then((dataNum) => {
-        let displayNum: number = 0;
-        let displayNumCountry: CountryCode = 'US';
-
-        // Get the nums to be excluded
-        console.log("SONETEL: Account ID: " + dataElement.dataset.accountid);
-        //console.log(exclude.dataset.excludenum);
-
-        const excludeNums = dataElement.dataset.excludenum.split(",");
-
-        excludeNums.forEach(trimall);
-        function trimall(item: string, index: number) {
-          excludeNums[index] = item.trim();
-        }
-        for (let nums of (<any>dataNum).response.numbers) {
-          if (excludeNums.indexOf(nums.e164number) !== -1) {
-            continue;
-          } else {
-            if (nums.iso.toUpperCase() === customerCountry) {
-              displayNum = nums.e164number;
-              displayNumCountry = nums.iso;
-              console.log("SONETEL: Display number from " + displayNumCountry);
-              break;
-            }
-          }
-        }
-        // if the number coun't be set by ISO, fetch the default entry.
-        if (displayNum == 0) {
-          displayNum = (<any>dataNum).response.default.e164number;
-          displayNumCountry = (<any>dataNum).response.default.iso;
-          console.log("SONETEL: Fallback to default phone number");
-        }
-
-        appendNumber(displayNum, displayNumCountry, customerCountry);
+        throw new Error(err)
       })
-      .catch((errNums) => {
-        console.error(errNums);
-      });
-  })
-  .catch((err) => {
-    console.error(err);
-  });
+  }) as phoneNumberList
 
-// append the phone number to the document body
-function appendNumber(displayNum: number, displayNumCountry: CountryCode, customerCountry: string) {
-  const formattedNumber = parsePhoneNumber(displayNum.toString(), displayNumCountry);
-
-  const phNumDispElem = document.createElement("a");
-  phNumDispElem.href = formattedNumber.getURI();
-
-  let numberToDisplay;
-  if (customerCountry.toUpperCase() === displayNumCountry.toUpperCase()) {
-    numberToDisplay = formattedNumber.formatNational();
-    console.log("SONETEL: Using national number format");
-  } else {
-    numberToDisplay = formattedNumber.formatInternational();
-    console.log("SONETEL: Using interational number format");
+  function listCtr(value: { "iso": CountryCode, "e164number": number }, index:number, array: []){
+    return value.iso.toUpperCase() == visitorCountryCode.toUpperCase()
   }
 
-  const numtext = document.createTextNode(numberToDisplay);
-  phNumDispElem.appendChild(numtext);
-  phNumDispElem.title = numberToDisplay;
-  const displayElem = document.getElementById("sonetel-disp-num")! as HTMLElement;
-  displayElem.appendChild(phNumDispElem);
+  const numToReturn = response.numbers.filter(listCtr)
+
+  if(numToReturn.length > 0){
+    return numToReturn
+  }else{
+    return response.default
+  }
+  
 }
+
+// append the phone number to the document body
+function appendNumber(displayNum: number, displayNumCountry: CountryCode, customerCountry: string): void {
+  const formattedNumber = parsePhoneNumber(displayNum.toString(), displayNumCountry)
+
+  const phNumDispElem = document.createElement('a')
+  phNumDispElem.href = formattedNumber.getURI()
+
+  let numberToDisplay
+  if (customerCountry.toUpperCase() === displayNumCountry.toUpperCase()) {
+    numberToDisplay = formattedNumber.formatNational()
+  } else {
+    numberToDisplay = formattedNumber.formatInternational()
+  }
+
+  const numtext = document.createTextNode(numberToDisplay)
+  phNumDispElem.appendChild(numtext)
+  phNumDispElem.title = numberToDisplay
+  displayElem.appendChild(phNumDispElem)
+
+}
+
+const main = async () => {
+  let userCountry, numList, displayNum, displayNumCountry;
+
+  if(!checkCache(constants.KEY_DISP_NUMBER) || cacheExpired()){
+
+    // Data not cached or cache expired //
+
+    // Get the visitor's country from their IP
+    const userLocation = await getUserCountry() as userCountry
+    userCountry = userLocation.country_code
+
+    // Get the phone number to be displayed based on the Visitor country
+    numList = await getPhoneNumber(userCountry)
+
+    displayNum = numList[0].e164number as number
+    displayNumCountry = numList[0].iso as CountryCode
+    
+    // Cache the data for 1 day
+    const expiry = +new Date() + constants.CACHE_EXPIRY_TIME
+    setCache(constants.KEY_DISPLAY_NUM_COUNTRY,displayNumCountry)
+    setCache(constants.KEY_DISP_NUMBER,displayNum)
+    setCache(constants.KEY_USER_COUNTRY,userCountry)
+    setCache(constants.KEY_EXPIRY,expiry)
+    
+  }else{
+
+    displayNum = +(localStorage.getItem(constants.KEY_DISP_NUMBER)) as number
+    displayNumCountry = localStorage.getItem(constants.KEY_DISPLAY_NUM_COUNTRY) as CountryCode
+    userCountry = localStorage.getItem(constants.KEY_USER_COUNTRY) as string
+
+  }
+  
+  appendNumber(displayNum, displayNumCountry, userCountry)
+}
+
+main()

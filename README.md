@@ -1,6 +1,10 @@
-# sonetel-phnum-js
+# Display Best Number
 
-A JS library for displaying Sonetel phone numbers on customer's website. Written in [TypeScript](https://www.typescriptlang.org/).
+A free library for displaying the phone number that is closest to the visitor on your website - in a format that is familiar to them.
+
+If you have phone numbers from multiple countries, you can use this library to automatically display the number that is best for the visitor on your website. Gets the visitor's location based on their IP address.
+
+Written in [TypeScript](https://www.typescriptlang.org/).
 
 **DEMO**
 
@@ -9,109 +13,63 @@ A JS library for displaying Sonetel phone numbers on customer's website. Written
 
 Change the location in the proxy server to see how different numbers are displayed. If the number list doesn't contain a number from the location of the proxy, then it will show the default number instead.
 
-### 1. Prerequisites for development
-
-- Windows/*nix/macOS operating system
-- text editor
-- node.js v10.x+
-- npm v6.x+
-
-#### 1.1 Brief architecture description
-
-* The logic for fetching the website visitor's location and formatting/displaying the appropriate phone number resides in ```src/index.ts```.
-* The library uses libphonenumber-js, a lightweight version of Google's libphonenumber library. This is included in the final JS file generated in ```dist/```.
-
+## How to use the library?
 <br>&nbsp;
-**Folder Structure**
-<br>&nbsp;
-```
-sonetel-phnum-js/
-    README.md
-    node_modules/
-    package.json
-    src/
-        index.ts
-    dist/
-        sonetel-phnum.min.js
-    tsconfig.json
-    package.json
-    webpack.config.js
-```
+Import the minified JS from the `dist/` into the website using a script tag.
 
+### Direct
+Copy the file `showBestNumber.min.js` into a folder in your website and use the `<script>` tag to load it.
 
-#### 1.2 Installing the project
+### CDN
 
-1. Clone the repository contents
-2. Run `npm install` command
-
-#### 1.3 Compiling the library
-
-<br>&nbsp;
-**For Production**
-<br>&nbsp;
-
-This command starts the build process, which results in putting the compiled `sonetel-phnum.min.js` library in the `dist/` folder. The final JS is minified and ready for use in a production environment.
+Alternatively, make use of the Free CDN courtsy the awesome folks at [jsdelivr.com](https://jsdelivr.com/).
 
 ```
-npm run build:prod
-```
-
-<br>&nbsp;
-**For Development**
-<br>&nbsp;
-```
-npm run build:dev
-```
-This command starts the build process for a development environment. It is almost the same as the production build except that the compiled `sonetel-phnum.min.js` is not minified for easy debugging.
-
-<br>&nbsp;
-
-### 2. How to use the library?
-<br>&nbsp;
-
-#### 2.1 On the browser
-<br>&nbsp;
-
-These are instructions for the end-user to use the compiled library. Start by importing the minified JS into the website using a script tag.
-
-```
-<script src="dist/sonetel-phnum.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/gh/aashish-joshi/phnum-js@main/dist/showBestNumber.min.js" defer></script>
 ```
 
 The script will look for an HTML element on the page with ID ```sonetel-disp-num```:
 ```
-<span id="sonetel-disp-num" data-excludenum="" data-uri="num.json"></span>
+<span id="show-best-num" data-uri="num.json"></span>
 ```
 
-Once it finds the element, it will:
+Once it finds the element, it will fetch the source of the phone number list from the attribute ```data-uri```. The URI should return a JSON response specified in section 2.2
 
-1. Fetch the source of the phone number list from the attribute ```data-uri```. The URI should return a JSON response specified in section 5.2
-2. Look at the ```data-excludenum``` attribute for a comma separated list of phone numbers to ignore. e.g. ```data-excludenum="861087833345, 31858884900,442036082900"```
 <br>&nbsp;
 
-#### 2.2 JSON response format
+## JSON response format
 <br>&nbsp;
 
-The resource at ```data-uri``` should return a JSON response in the following format.
+The resource at ```data-uri``` should return a JSON response in the following format. It can either be a link to a static `json` file or a API as long as the response is in the accepted format.
 
 ```
 {
-  "response": {
-    "numbers": [
-      {
-        "iso": "US",
-        "e164number": "18557663835"
-      },
-      ...
-      {
-        "iso": "GB",
-        "e164number": "442036082900"
-      }
-    ],
-    "default": {
+  "numbers": [
+    {
+      "iso": "US",
+      "e164number": "18557663835"
+    },
+    {
+      "iso": "GB",
+      "e164number": "442036082900"
+    }
+  ],
+  "default": [
+    {
       "iso": "US",
       "e164number": "18557663835"
     }
-  }
+  ]
 }
 ```
+
+### Explanation
+
+Each phone number is defined in an object that contains the following keys:
+
+- `iso` - The two letter [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) code.
+- `e164number` - the full phone number with the country code and area code. For example, the US number `212-555-1234` is entered as `12125551234`.
+
+The `default` number is the phone number that is displayed if there is no phone number from the website visitor's location.
+
+A sample json file is included in the repository. Rename the file and edit it to include your phone numbers.
