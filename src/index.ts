@@ -1,16 +1,21 @@
 'use strict'
-import { CountryCode, parsePhoneNumber } from 'libphonenumber-js'
+import { CountryCode, parsePhoneNumber, PhoneNumber } from 'libphonenumber-js'
 import { getUserCountry } from './getUserCountry'
 
-const dataElement = document.querySelector('#show-best-num');
-const VERSION = '0.3.0'
+// Import interfaces
+import { userCountry } from './interfaces/userCountry'
+import { phoneNumberList } from './interfaces/phoneNumberList'
 
-console.log('ShowBestNum:: Phone number display widget v' + VERSION)
+// Constants
+const displayElem = document.querySelector('#show-best-num') as HTMLElement
+const VERSION = '1.0.0'
+
+console.log(`ShowBestNum:: Phone number display widget v${VERSION}`)
 
 // using the visitor's country, get the best phone number and format it.
 async function getPhoneNumber(visitorCountryCode: string) {
-  return await new Promise((resolve, reject) => {
-    const numJsonUri = dataElement.dataset.uri as string
+  const response = await new Promise((resolve, reject) => {
+    const numJsonUri = displayElem.dataset.uri as string
     fetch(numJsonUri)
       .then(async (response) => {
         return await response.json()
@@ -21,53 +26,15 @@ async function getPhoneNumber(visitorCountryCode: string) {
       .catch((err) => {
         reject(err)
       })
-  })
+  }) as phoneNumberList
+
+  function listCtr(value: { "iso": CountryCode, "e164number": number }, index:number, array: []){
+    return value.iso.toUpperCase() == visitorCountryCode.toUpperCase()
+  }
+
+  return response.numbers.filter(listCtr)
+  
 }
-
-// getUserCountry()
-//   .then((data: any) => {
-//     let customerCountry = (data).response.country_code;
-//     getPhoneNumber();
-//       .then((dataNum) => {
-//         let displayNum: number = 0;
-//         let displayNumCountry: CountryCode = 'US';
-
-//         // Get the nums to be excluded
-//         console.log("SONETEL: Account ID: " + dataElement.dataset.accountid);
-//         //console.log(exclude.dataset.excludenum);
-
-//         const excludeNums = dataElement.dataset.excludenum.split(",");
-
-//         excludeNums.forEach(trimall);
-//         
-//         for (let nums of (<any>dataNum).response.numbers) {
-//           if (excludeNums.indexOf(nums.e164number) !== -1) {
-//             continue;
-//           } else {
-//             if (nums.iso.toUpperCase() === customerCountry) {
-//               displayNum = nums.e164number;
-//               displayNumCountry = nums.iso;
-//               console.log("SONETEL: Display number from " + displayNumCountry);
-//               break;
-//             }
-//           }
-//         }
-//         // if the number coun't be set by ISO, fetch the default entry.
-//         if (displayNum == 0) {
-//           displayNum = (<any>dataNum).response.default.e164number;
-//           displayNumCountry = (<any>dataNum).response.default.iso;
-//           console.log("SONETEL: Fallback to default phone number");
-//         }
-
-//         appendNumber(displayNum, displayNumCountry, customerCountry);
-//       })
-//       .catch((errNums) => {
-//         console.error(errNums);
-//       });
-//   })
-//   .catch((err) => {
-//     console.error(err);
-//   });
 
 // append the phone number to the document body
 function appendNumber(displayNum: number, displayNumCountry: CountryCode, customerCountry: string): void {
@@ -79,24 +46,25 @@ function appendNumber(displayNum: number, displayNumCountry: CountryCode, custom
   let numberToDisplay
   if (customerCountry.toUpperCase() === displayNumCountry.toUpperCase()) {
     numberToDisplay = formattedNumber.formatNational()
-    console.log('SONETEL: Using national number format')
   } else {
     numberToDisplay = formattedNumber.formatInternational()
-    console.log('SONETEL: Using interational number format')
   }
 
   const numtext = document.createTextNode(numberToDisplay)
   phNumDispElem.appendChild(numtext)
   phNumDispElem.title = numberToDisplay
-  const displayElem = document.getElementById('sonetel-disp-num')
   displayElem.appendChild(phNumDispElem)
 }
 
 const f = async () => {
   // Get the visitor's country from their IP
-  const visitorCountry = await getUserCountry()
+  const userCountry = await getUserCountry() as userCountry
   // Get the phone number to be displayed based on the Visitor country
-  const numList = await getPhoneNumber(visitorCountry.response.country_code)
-  const displayNum: number = 0
-  const displayNumCountry: CountryCode = 'US'
+  const numList = await getPhoneNumber(userCountry.country_code)
+  console.log(numList)
+  const displayNum: number = numList[0].e164number
+  const displayNumCountry: CountryCode = numList[0].iso
+  appendNumber(displayNum, displayNumCountry, userCountry.country_code)
 }
+
+f()
