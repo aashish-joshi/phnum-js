@@ -6,7 +6,8 @@
   "scripts": {
     "build:prod": "webpack --mode production",
     "build:dev": "webpack --mode development",
-    "run:dev": "node serve"
+    "run:dev": "node serve",
+    "build:demo": "npm run build:dev && npx gulp"
   },
   "repository": {
     "type": "git",
@@ -21,6 +22,7 @@
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.35.1",
     "express": "^4.18.1",
+    "gulp": "^4.0.2",
     "ts-loader": "^9.2.8",
     "typescript": "^4.7.4",
     "webpack": "^5.70.0",

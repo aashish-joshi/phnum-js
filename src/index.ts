@@ -14,17 +14,22 @@ console.log(`ShowBestNum:: Phone number display widget v${VERSION}`)
 
 // using the visitor's country, get the best phone number and format it.
 async function getPhoneNumber(visitorCountryCode: string) {
+  const numJsonUri = displayElem.dataset.uri as string
+
   const response = await new Promise((resolve, reject) => {
-    const numJsonUri = displayElem.dataset.uri as string
     fetch(numJsonUri)
       .then(async (response) => {
-        return await response.json()
+        if(response.ok){
+          return await response.json()
+        }else{
+          throw new Error(response.statusText)
+        }
       })
       .then((data) => {
         resolve(data)
       })
       .catch((err) => {
-        reject(err)
+        console.log(err)
       })
   }) as phoneNumberList
 
