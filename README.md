@@ -38,23 +38,28 @@ The resource at ```data-uri``` should return a JSON response in the following fo
 
 ```json
 {
-  "numbers": [
-    {
-      "iso": "US",
-      "e164number": "18557663835"
-    },
-    {
-      "iso": "GB",
-      "e164number": "442036082900"
-    }
-  ],
-  "default": [
-    {
-      "iso": "US",
-      "e164number": "18557663835"
-    }
-  ]
+	"numbers": [
+		{
+			"iso": "US",
+			"e164number": "12125551234"
+		},
+		{
+			"iso": "FR",
+			"e164number": "33900000000"
+		},
+		{
+			"iso": "NL",
+			"e164number": "31858000000"
+		}
+	],
+	"default": [
+		{
+			"iso": "US",
+			"e164number": "12125551234"
+		}
+	]
 }
+
 ```
 
 ### Explanation
