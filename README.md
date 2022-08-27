@@ -6,43 +6,37 @@ If you have phone numbers from multiple countries, you can use this library to a
 
 Written in [TypeScript](https://www.typescriptlang.org/).
 
-**DEMO**
-
-* URL: [sonetel-numwidget-js.netlify.app](https://sonetel-numwidget-js.netlify.app)
-* Demo using proxy server: [Proxy server link](https://proxy-lon.hidemyass-freeproxy.com/proxy/en-in/aHR0cHM6Ly9zb25ldGVsLW51bXdpZGdldC1qcy5uZXRsaWZ5LmFwcC8)
-
-Change the location in the proxy server to see how different numbers are displayed. If the number list doesn't contain a number from the location of the proxy, then it will show the default number instead.
-
 ## How to use the library?
-<br>&nbsp;
-Import the minified JS from the `dist/` into the website using a script tag.
 
 ### Direct
+
 Copy the file `showBestNumber.min.js` into a folder in your website and use the `<script>` tag to load it.
+
+```html
+<script src="/path/to/showBestNumber.min.js" async></script>
+```
 
 ### CDN
 
-Alternatively, make use of the Free CDN courtsy the awesome folks at [jsdelivr.com](https://jsdelivr.com/).
+Alternatively, make use of the Free CDN courtesy the awesome folks at [jsdelivr.com](https://jsdelivr.com/).
 
-```
-<script src="https://cdn.jsdelivr.net/gh/aashish-joshi/phnum-js@main/dist/showBestNumber.min.js" defer></script>
+```html
+<script src="https://cdn.jsdelivr.net/gh/aashish-joshi/phnum-js@main/dist/showBestNumber.min.js" async></script>
 ```
 
-The script will look for an HTML element on the page with ID ```sonetel-disp-num```:
-```
+The script will look for an HTML element on the page with ID `show-best-num`:
+
+```html
 <span id="show-best-num" data-uri="num.json"></span>
 ```
 
-Once it finds the element, it will fetch the source of the phone number list from the attribute ```data-uri```. The URI should return a JSON response specified in section 2.2
-
-<br>&nbsp;
+Once it finds the element, it will fetch the source of the phone number list from the attribute `data-uri`. The URI should return a JSON response specified in section 2.2
 
 ## JSON response format
-<br>&nbsp;
 
 The resource at ```data-uri``` should return a JSON response in the following format. It can either be a link to a static `json` file or a API as long as the response is in the accepted format.
 
-```
+```json
 {
   "numbers": [
     {
