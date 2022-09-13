@@ -50,7 +50,7 @@ $ npm ci
 This command starts the build process, which results in putting the compiled `showBestNumber.min.js` library in the `dist/` folder. The final JS is minified and ready for use in a production environment.
 
 ```
-$ npm run build:prod
+$ npm run build
 ```
 
 <br>&nbsp;
@@ -58,7 +58,7 @@ $ npm run build:prod
 <br>&nbsp;
 
 ```
-$ npm run build:dev
+$ npm run dev
 ```
 
 This command starts the build process for a development environment. It is almost the same as the production build except that the compiled `showBestNumber.min.js` is not minified for easy debugging.

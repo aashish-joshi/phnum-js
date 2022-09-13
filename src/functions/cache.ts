@@ -1,4 +1,4 @@
-import * as constants from './constants'
+import * as constants from '../constants'
 
 export function setCache (cacheKey: string, data: any): void {
     localStorage.setItem(cacheKey, data);
