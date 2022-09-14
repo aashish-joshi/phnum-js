@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/aashish-joshi/phnum-js#readme",
   "devDependencies": {
+    "gulp": "^4.0.2",
+    "gulp-zip": "^5.1.0",
     "ts-loader": "^9.2.8",
     "typescript": "^4.7.4",
     "webpack": "^5.70.0",
