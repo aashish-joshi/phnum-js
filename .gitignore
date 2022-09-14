@@ -1,5 +1,3 @@
 settings.json
-*.html
 node_modules
 .vscode
-num.json
