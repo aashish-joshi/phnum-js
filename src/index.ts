@@ -20,10 +20,15 @@ const main = async () => {
 
     // Data not cached or cache expired //
 
-    // Get the visitor's country from their IP
-    const userLocation = await getUserCountry() as userCountry
-    userCountry = userLocation.country_code
-
+    try {
+      // Get the visitor's country from their IP
+      const userLocation = await getUserCountry() as userCountry
+      userCountry = userLocation.country_code
+    } catch (error) {
+      console.log('ShowBestNum:: Cannot get country based on IP. Using defaults.');
+      userCountry = ''
+    }
+    
     // Get the phone number to be displayed based on the Visitor country
     numList = await getPhoneNumber(userCountry)
 

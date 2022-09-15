@@ -1,6 +1,6 @@
 {
   "name": "show-best-number",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Auto display and format phone numbers based on website visitor's location.",
   "main": "./src/index.js",
   "scripts": {
