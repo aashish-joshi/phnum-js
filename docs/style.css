@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+body{
+    background-color: #ffe;
+    font-family: 'Montserrat', sans-serif;
+}
+.container-nav{
+    width: 100%;
+    text-align: center;
+}
+.nav {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.5rem;
+}
+.nav-item {
+    display: inline;
+    padding-right: 5px;
+}
+nav > a{
+    display: block;
+}
+.container{
+    padding: 0px 25px;
+}
+section{
+    padding: 10px 15px;
+}
+.page-title{
+    text-align: center;
+    margin: 25px 0 5px;
+}
+.page-subtitle{
+    text-align: center;
+    margin: 5px 0;
+}
+a{
+    color: rgb(91, 186, 154);
+    text-decoration: none;
+}
+a:hover{
+    color: rgb(77, 152, 127);
+    text-decoration: underline;
+}
+
+.code-block{
+    font-family: 'Courier New', Courier, monospace;
+    background-color: lightgray;
+    color: red;
+    padding: 0 3px;
+}
+
+footer{
+    text-align: center;
+    color: darkgray;
+    font-size: 10px;
+}
+footer > hr{
+    width: 50%;
+    text-align: center;
+    border: 1px solid;
+    margin-bottom: 10px;
+}
+
+@media (min-width: 800px) and (orientation: landscape) {
+    .container-nav{
+        width: 100%;
+        text-align: end;
+    }
+    .container{
+        padding: 0px 50px;
+    }
+    section{
+        padding: 20px 30px;
+    }
+}

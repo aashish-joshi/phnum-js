@@ -26,6 +26,10 @@ export async function getPhoneNumber(visitorCountryCode: string) {
       })
   }) as phoneNumberList
 
+  if(!visitorCountryCode){
+    return response.default
+  }
+
   const listCtr = (value: { "iso": CountryCode, "e164number": number }, index:number) =>{
     return value.iso.toUpperCase() == visitorCountryCode.toUpperCase()
   }
