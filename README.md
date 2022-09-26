@@ -83,4 +83,4 @@ A sample json file is included in the repository. Rename the file and edit it to
 This project uses the following free services:
 
 - CDN by [jsDeliver](https://www.jsdelivr.com/)
-- IP lookup by [IP2location](https://www.ip2location.com/)
+- IP address lookup by [ipapi](https://ipapi.co/)
