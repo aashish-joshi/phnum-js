@@ -4,33 +4,38 @@ A free library for displaying the phone number that is closest to the visitor on
 
 If you have phone numbers from multiple countries, you can use this library to automatically display the number that is best for the visitor on your website. Gets the visitor's location based on their IP address.
 
-Written in [TypeScript](https://www.typescriptlang.org/).
+[Demo](https://aashish-joshi.github.io/phnum-js/demo.html).
 
 ## How to use the library?
 
-### Direct
-
-Copy the file `showBestNumber.min.js` into a folder in your website and use the `<script>` tag to load it.
-
-```html
-<script src="/path/to/showBestNumber.min.js" async></script>
-```
-
 ### CDN
 
-Alternatively, make use of the Free CDN courtesy the awesome folks at [jsdelivr.com](https://jsdelivr.com/).
+Use the Free CDN courtesy the awesome folks at jsDelivr.com.
 
 ```html
 <script src="https://cdn.jsdelivr.net/gh/aashish-joshi/phnum-js@main/dist/showBestNumber.min.js" async></script>
 ```
 
-The script will look for an HTML element on the page with ID `show-best-num`:
+### Directly
+
+Alternatively, [download the script](dist/showBestNumber.min.js) from the `dist/` folder and move it into a folder in your website. Use the `<script>` tag to load it.
+
+```html
+<script src="/path/to/showBestNumber.min.js" async></script>
+```
+
+
+## Where will the phone number be shown?
+
+The script will look for a HTML element on the page with ID `show-best-num`:
 
 ```html
 <span id="show-best-num" data-uri="num.json"></span>
 ```
 
 Once it finds the element, it will fetch the source of the phone number list from the attribute `data-uri`. The URI should return a JSON response specified in section 2.2
+
+Feel free to use a different HTML element if needed.
 
 ## JSON response format
 
@@ -72,3 +77,10 @@ Each phone number is defined in an object that contains the following keys:
 The `default` number is the phone number that is displayed if there is no phone number from the website visitor's location.
 
 A sample json file is included in the repository. Rename the file and edit it to include your phone numbers.
+
+## Acknowledgements
+
+This project uses the following free services:
+
+- CDN by [jsDeliver](https://www.jsdelivr.com/)
+- IP address lookup by [ipapi](https://ipapi.co/)
