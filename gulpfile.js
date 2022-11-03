@@ -10,4 +10,10 @@ function assets() {
     .pipe(dest(outPath));
 }
 
+function copyToDev() {
+    return src(inputFiles[0])
+    .pipe(dest('./dev/'))
+}
+
+exports.dev = copyToDev;
 exports.default = assets;
