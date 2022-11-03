@@ -8,15 +8,16 @@ export async function getUserCountry () {
     });
     fetch(getIpUri)
       .then(async (response) => {
-        try {
-          if (response.ok) {
-            return await response.json()
-          } else {
-            throw new Error(response.statusText)
+        if (response.ok) {
+          return await response.json()
+        } else {
+          if(
+            response.status.toString().startsWith('4') || 
+            response.status.toString().startsWith('5')
+            ){
+            // Failed response
+            return ''
           }
-        }
-        catch (err) {
-          console.error(err)
         }
       })
       .then((data) => {
