@@ -1,6 +1,6 @@
 # Display Best Number
 
-A free library for displaying the phone number that is closest to the visitor on your website - in a format that is familiar to them.
+phnum-js is a free JavaScript library that automatically selects, from a list of given numbers, the best number to display for a visitor on your website in a format that they understand.
 
 If you have phone numbers from multiple countries, you can use this library to automatically display the number that is best for the visitor on your website. Gets the visitor's location based on their IP address.
 
@@ -77,6 +77,16 @@ Each phone number is defined in an object that contains the following keys:
 The `default` number is the phone number that is displayed if there is no phone number from the website visitor's location.
 
 A sample json file is included in the repository. Rename the file and edit it to include your phone numbers.
+
+### Bugs and feedback
+
+If you found an issue or wish to request for a feature, please [open an issue](https://github.com/aashish-joshi/phnum-js/issues).
+
+### Contribute
+
+All contributions are welcome.
+
+Please read the [contribution guidelines](CONTRIBUTE.md) for more information.
 
 ## Acknowledgements
 
