@@ -9,6 +9,7 @@ window.onload = () => {
         const number = e.target.number.value;
         console.log(number);
         textArea.value += `${number},`;
+        formJson.reset();
     });
 
     copyButton.addEventListener('click',(e) => {
