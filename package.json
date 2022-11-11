@@ -1,5 +1,5 @@
 {
-  "name": "show-best-number",
+  "name": "phnum-js",
   "version": "0.4.2",
   "description": "Auto display and format phone numbers based on website visitor's location.",
   "main": "./src/index.js",

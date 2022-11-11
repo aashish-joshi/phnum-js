@@ -1,7 +1,7 @@
 'use strict'
 import { CountryCode } from 'libphonenumber-js'
 import { getUserCountry } from './functions/getUserCountry'
-import { checkCache, setCache, cacheExpired } from './functions/cache'
+import { checkCache, setCache, isCacheExpired } from './functions/cache'
 import { getPhoneNumber } from './functions/getPhoneNumber'
 import {appendNumber} from './functions/appendNumber'
 
@@ -16,7 +16,7 @@ console.log(`ShowBestNum:: Phone number display widget v${constants.VERSION}`)
 const main = async () => {
   let userCountry, numList, displayNum, displayNumCountry;
 
-  if(!checkCache(constants.KEY_DISP_NUM) || cacheExpired()){
+  if(!checkCache(constants.KEY_DISP_NUM) || isCacheExpired()){
 
     // Data not cached or cache expired //
 
