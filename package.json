@@ -28,6 +28,6 @@
     "webpack-cli": "^4.9.2"
   },
   "dependencies": {
-    "libphonenumber-js": "^1.9.49"
+    "libphonenumber-js": "^1.10.15"
   }
 }
