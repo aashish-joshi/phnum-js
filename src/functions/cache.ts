@@ -12,7 +12,7 @@ export function checkCache(cacheKey: string): boolean {
     return false;
 }
 
-export function cacheExpired(): boolean {
+export function isCacheExpired(): boolean {
 
     if(localStorage.getItem(constants.KEY_EXPIRY)){
         const cacheExpiry = +(localStorage.getItem(constants.KEY_EXPIRY))
@@ -21,7 +21,6 @@ export function cacheExpired(): boolean {
         if(TS - cacheExpiry > 0){
             return true
         }
-        return false
     }
     return true
 
