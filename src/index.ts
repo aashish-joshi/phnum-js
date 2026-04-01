@@ -57,9 +57,9 @@ const main = async () => {
       return
     }
 
-    displayNum = +cachedNum as number
+    displayNum = +cachedNum
     displayNumCountry = cachedCountry as CountryCode
-    userCountry = cachedUserCountry as string
+    userCountry = cachedUserCountry!
 
   }
   
