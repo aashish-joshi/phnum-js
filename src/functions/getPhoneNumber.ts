@@ -31,6 +31,10 @@ export async function getPhoneNumber(visitorCountryCode: string) {
       })
   }) as phoneNumberList
 
+  if (!response || !Array.isArray(response.numbers) || !Array.isArray(response.default)) {
+    throw new Error('ShowBestNum:: Invalid phone number list format.')
+  }
+
   if(!visitorCountryCode){
     return response.default
   }
