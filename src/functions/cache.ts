@@ -22,6 +22,6 @@ export function isCacheExpired(): boolean {
             return true
         }
     }
-    return true
+    return false
 
 }
