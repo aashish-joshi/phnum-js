@@ -33,7 +33,7 @@ The script will look for a HTML element on the page with ID `show-best-num`:
 <span id="show-best-num" data-uri="num.json"></span>
 ```
 
-Once it finds the element, it will fetch the source of the phone number list from the attribute `data-uri`. The URI should return a JSON response specified in section 2.2
+Once it finds the element, it will fetch the source of the phone number list from the attribute `data-uri`. The URI must be an `http:` or `https:` URL — other schemes (e.g. `data:`) are blocked for security. The URI should return a JSON response in the format described below.
 
 Feel free to use a different HTML element if needed.
 
@@ -46,21 +46,21 @@ The resource at ```data-uri``` should return a JSON response in the following fo
 	"numbers": [
 		{
 			"iso": "US",
-			"e164number": "12125551234"
+			"e164number": 12125551234
 		},
 		{
 			"iso": "FR",
-			"e164number": "33900000000"
+			"e164number": 33900000000
 		},
 		{
 			"iso": "NL",
-			"e164number": "31858000000"
+			"e164number": 31858000000
 		}
 	],
 	"default": [
 		{
 			"iso": "US",
-			"e164number": "12125551234"
+			"e164number": 12125551234
 		}
 	]
 }
@@ -72,7 +72,7 @@ The resource at ```data-uri``` should return a JSON response in the following fo
 Each phone number is defined in an object that contains the following keys:
 
 - `iso` - The two letter [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) code.
-- `e164number` - the full phone number with the country code and area code. For example, the US number `212-555-1234` is entered as `12125551234`.
+- `e164number` - the full phone number with the country code and area code, as a **number** (no quotes, no `+`, no formatting). For example, the US number `212-555-1234` is entered as `12125551234`.
 
 The `default` number is the phone number that is displayed if there is no phone number from the website visitor's location.
 
@@ -92,5 +92,5 @@ Please read the [contribution guidelines](CONTRIBUTE.md) for more information.
 
 This project uses the following free services:
 
-- CDN by [jsDeliver](https://www.jsdelivr.com/)
+- CDN by [jsDelivr](https://www.jsdelivr.com/)
 - IP address lookup by [ipapi](https://ipapi.co/)
