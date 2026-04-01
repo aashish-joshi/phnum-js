@@ -44,9 +44,22 @@ const main = async () => {
     
   }else{
 
-    displayNum = +(localStorage.getItem(constants.KEY_DISP_NUM)) as number
-    displayNumCountry = localStorage.getItem(constants.KEY_DISP_NUM_COUNTRY) as CountryCode
-    userCountry = localStorage.getItem(constants.KEY_USER_COUNTRY) as string
+    const cachedNum = localStorage.getItem(constants.KEY_DISP_NUM)
+    const cachedCountry = localStorage.getItem(constants.KEY_DISP_NUM_COUNTRY)
+    const cachedUserCountry = localStorage.getItem(constants.KEY_USER_COUNTRY)
+
+    if (!cachedNum || !cachedCountry || !/^\d+$/.test(cachedNum) || !/^[A-Z]{2}$/i.test(cachedCountry)) {
+      localStorage.removeItem(constants.KEY_DISP_NUM)
+      localStorage.removeItem(constants.KEY_DISP_NUM_COUNTRY)
+      localStorage.removeItem(constants.KEY_USER_COUNTRY)
+      localStorage.removeItem(constants.KEY_EXPIRY)
+      console.log('ShowBestNum:: Cached data is invalid. Will re-fetch on next load.')
+      return
+    }
+
+    displayNum = +cachedNum
+    displayNumCountry = cachedCountry as CountryCode
+    userCountry = cachedUserCountry!
 
   }
   

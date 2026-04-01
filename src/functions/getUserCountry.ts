@@ -3,7 +3,7 @@ export async function getUserCountry () {
     const getIpUri = new Request('https://ipapi.co/json/', {
       method: 'GET',
       headers: { Accept: 'application/json' },
-      referrer: document.location.host,
+      referrer: document.location.href,
       cache: 'default'
     });
     fetch(getIpUri)

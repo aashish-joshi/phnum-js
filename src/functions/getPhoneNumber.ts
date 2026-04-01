@@ -9,6 +9,11 @@ const displayElem = document.querySelector(constants.DISPLAY_ELEMENT) as HTMLEle
 export async function getPhoneNumber(visitorCountryCode: string) {
   const numJsonUri = displayElem.dataset.uri as string
 
+  const resolvedUri = new URL(numJsonUri, document.baseURI)
+  if (resolvedUri.protocol !== 'https:' && resolvedUri.protocol !== 'http:') {
+    throw new Error(`ShowBestNum:: Blocked fetch: data-uri scheme "${resolvedUri.protocol}" is not allowed.`)
+  }
+
   const response = await new Promise((resolve, reject) => {
     fetch(numJsonUri)
       .then(async (response) => {
@@ -25,6 +30,10 @@ export async function getPhoneNumber(visitorCountryCode: string) {
         throw new Error(err)
       })
   }) as phoneNumberList
+
+  if (!Array.isArray(response.numbers) || !Array.isArray(response.default)) {
+    throw new Error('ShowBestNum:: Invalid phone number list format.')
+  }
 
   if(!visitorCountryCode){
     return response.default
